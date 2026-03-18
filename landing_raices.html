@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raíces Solidarias — Transformando comunidades desde la esperanza</title>
+<meta name="description" content="Organización sin ánimo de lucro en Colombia que apoya comunidades en situación de vulnerabilidad. Conoce nuestro impacto y únete al cambio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   CSS VARIABLES & RESET
+   ============================================ */
+:root {
+  --terracotta:     #B85C38;
+  --terracotta-deep:#9A4526;
+  --terracotta-soft:#D4845A;
+  --green-forest:   #3B5E3A;
+  --green-moss:     #5A7F59;
+  --green-sage:     #8BA888;
+  --cream:          #FAF3E8;
+  --cream-dark:     #EDE4D3;
+  --brown-warm:     #6B4226;
+  --brown-light:    #A67C5B;
+  --charcoal:       #2C2C2C;
+  --white-warm:     #FFFCF7;
+  --shadow-warm:    rgba(107, 66, 38, 0.12);
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'Source Serif 4', 'Georgia', serif;
+
+  --section-pad: clamp(4rem, 10vw, 8rem);
+  --content-max: 1200px;
+  --content-narrow: 800px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1vw + 0.75rem, 1.125rem);
+  line-height: 1.7;
+  color: var(--charcoal);
+  background: var(--white-warm);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* Selection */
+::selection {
+  background: var(--terracotta-soft);
+  color: var(--white-warm);
+}
+
+/* ============================================
+   UTILITY
+   ============================================ */
+.container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+
+.container--narrow {
+  max-width: var(--content-narrow);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+}
+
+.nav.scrolled {
+  background: rgba(250, 243, 232, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px var(--shadow-warm);
+  padding: 0.6rem 0;
+}
+
+.nav__inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--white-warm);
+  letter-spacing: 0.02em;
+  transition: color 0.4s ease;
+}
+
+.nav.scrolled .nav__logo {
+  color: var(--terracotta-deep);
+}
+
+.nav__logo span {
+  color: var(--terracotta-soft);
+  transition: color 0.4s ease;
+}
+
+.nav.scrolled .nav__logo span {
+  color: var(--terracotta);
+}
+
+.nav__links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav__links a {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255,252,247,0.85);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav.scrolled .nav__links a {
+  color: var(--charcoal);
+}
+
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--terracotta);
+  transition: width 0.3s ease;
+}
+
+.nav__links a:hover::after {
+  width: 100%;
+}
+
+/* Hamburger */
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--white-warm);
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.4s ease;
+}
+
+.nav.scrolled .nav__hamburger span {
+  background: var(--charcoal);
+}
+
+.nav__hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav__hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav__hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile menu */
+.nav__mobile {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(44, 44, 44, 0.97);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.nav__mobile.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav__mobile a {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--cream);
+  transition: color 0.3s ease;
+}
+
+.nav__mobile a:hover {
+  color: var(--terracotta-soft);
+}
+
+@media (max-width: 768px) {
+  .nav__links { display: none; }
+  .nav__hamburger { display: flex; }
+  .nav__mobile { display: flex; }
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(160deg, var(--green-forest) 0%, #2D4A2C 40%, var(--brown-warm) 100%);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(184, 92, 56, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(90, 127, 89, 0.2) 0%, transparent 50%);
+  z-index: 1;
+}
+
+/* Organic shape */
+.hero__blob {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.07;
+}
+
+.hero__blob--1 {
+  top: -10%;
+  right: -5%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  background: var(--terracotta);
+  animation: blobFloat 20s ease-in-out infinite;
+}
+
+.hero__blob--2 {
+  bottom: -15%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 500px;
+  max-height: 500px;
+  border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
+  background: var(--green-sage);
+  animation: blobFloat 25s ease-in-out infinite reverse;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(20px, -30px) rotate(5deg); }
+  66% { transform: translate(-15px, 15px) rotate(-3deg); }
+}
+
+/* Texture overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 5;
+  max-width: 720px;
+  padding: var(--section-pad) 0;
+}
+
+.hero__tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta-soft);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5.5vw + 1rem, 4.5rem);
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--terracotta-soft);
+}
+
+.hero__subtitle {
+  font-size: clamp(1.05rem, 1.2vw + 0.5rem, 1.25rem);
+  line-height: 1.8;
+  color: rgba(250, 243, 232, 0.8);
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 2rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 60px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn--primary {
+  background: var(--terracotta);
+  color: var(--white-warm);
+  box-shadow: 0 4px 20px rgba(184, 92, 56, 0.35);
+}
+
+.btn--primary:hover {
+  background: var(--terracotta-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(184, 92, 56, 0.45);
+}
+
+.btn--ghost {
+  border: 1.5px solid rgba(250, 243, 232, 0.4);
+  color: var(--cream);
+}
+
+.btn--ghost:hover {
+  border-color: var(--cream);
+  background: rgba(250, 243, 232, 0.1);
+}
+
+.btn--dark {
+  background: var(--green-forest);
+  color: var(--white-warm);
+  box-shadow: 0 4px 20px rgba(59, 94, 58, 0.3);
+}
+
+.btn--dark:hover {
+  background: #2D4A2C;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59, 94, 58, 0.4);
+}
+
+/* Scroll indicator */
+.hero__scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(250,243,232,0.5);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: fadeUp 1s 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(250,243,232,0.5), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; }
+  50% { transform: scaleY(1.3); opacity: 1; }
+}
+
+/* ============================================
+   ABOUT / QUIÉNES SOMOS
+   ============================================ */
+.about {
+  padding: var(--section-pad) 0;
+  background: var(--white-warm);
+  position: relative;
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.about__visual {
+  position: relative;
+}
+
+.about__image-frame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  background: linear-gradient(135deg, var(--cream-dark) 0%, var(--terracotta-soft) 100%);
+}
+
+.about__image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--brown-warm);
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.about__image-placeholder svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.4;
+}
+
+.about__accent-shape {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--terracotta-soft);
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.about__text .section-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.about__text h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw + 0.5rem, 3rem);
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin-bottom: 1.5rem;
+}
+
+.about__text h2 em {
+  font-style: italic;
+  color: var(--terracotta);
+}
+
+.about__text p {
+  color: #555;
+  margin-bottom: 1.25rem;
+}
+
+.about__values {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.value-card {
+  padding: 1.25rem;
+  background: var(--cream);
+  border-radius: 14px;
+  border-left: 3px solid var(--terracotta-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px var(--shadow-warm);
+}
+
+.value-card__icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.value-card__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+  color: var(--charcoal);
+}
+
+.value-card__desc {
+  font-size: 0.85rem;
+  color: #777;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+  .about__visual {
+    order: -1;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .about__values {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   METHODOLOGY / CÓMO LO HACEMOS
+   ============================================ */
+.methodology {
+  padding: var(--section-pad) 0;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+.methodology::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--brown-light), transparent);
+  opacity: 0.3;
+}
+
+.methodology__header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 4rem;
+}
+
+.methodology__header .section-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green-forest);
+  margin-bottom: 1rem;
+}
+
+.methodology__header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw + 0.5rem, 3rem);
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+}
+
+.methodology__header p {
+  color: #666;
+  font-size: 1.05rem;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  position: relative;
+}
+
+/* Connection line */
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 50px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: linear-gradient(to right, var(--terracotta-soft), var(--green-moss), var(--terracotta-soft), var(--green-forest));
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.step__number {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover .step__number {
+  transform: scale(1.1);
+}
+
+.step:nth-child(1) .step__number {
+  background: var(--terracotta);
+  color: var(--white-warm);
+  box-shadow: 0 6px 20px rgba(184, 92, 56, 0.3);
+}
+
+.step:nth-child(2) .step__number {
+  background: var(--green-forest);
+  color: var(--white-warm);
+  box-shadow: 0 6px 20px rgba(59, 94, 58, 0.3);
+}
+
+.step:nth-child(3) .step__number {
+  background: var(--brown-warm);
+  color: var(--white-warm);
+  box-shadow: 0 6px 20px rgba(107, 66, 38, 0.3);
+}
+
+.step:nth-child(4) .step__number {
+  background: var(--green-moss);
+  color: var(--white-warm);
+  box-shadow: 0 6px 20px rgba(90, 127, 89, 0.3);
+}
+
+.step__title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--charcoal);
+  margin-bottom: 0.6rem;
+}
+
+.step__desc {
+  font-size: 0.9rem;
+  color: #777;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .steps {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem 1.5rem;
+  }
+  .steps::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   IMPACT / IMPACTO SOCIAL
+   ============================================ */
+.impact {
+  padding: var(--section-pad) 0;
+  background: var(--green-forest);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+.impact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.impact__header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.impact__header .section-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta-soft);
+  margin-bottom: 1rem;
+}
+
+.impact__header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw + 0.5rem, 3rem);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.impact__header p {
+  color: rgba(250,243,232,0.75);
+  font-size: 1.05rem;
+}
+
+/* Stats */
+.impact__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.stat {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 16px;
+  background: rgba(250,243,232,0.06);
+  border: 1px solid rgba(250,243,232,0.1);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.stat:hover {
+  transform: translateY(-5px);
+  background: rgba(250,243,232,0.1);
+}
+
+.stat__number {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  color: var(--terracotta-soft);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat__label {
+  font-size: 0.9rem;
+  color: rgba(250,243,232,0.7);
+  line-height: 1.4;
+}
+
+/* Testimonials */
+.impact__testimonials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial {
+  padding: 2.5rem;
+  background: rgba(250,243,232,0.07);
+  border-radius: 20px;
+  border: 1px solid rgba(250,243,232,0.08);
+  position: relative;
+}
+
+.testimonial__quote-mark {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: var(--terracotta-soft);
+  opacity: 0.4;
+  line-height: 1;
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+}
+
+.testimonial__text {
+  font-style: italic;
+  color: rgba(250,243,232,0.9);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.testimonial__author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.testimonial__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--cream);
+  flex-shrink: 0;
+}
+
+.testimonial__name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.testimonial__role {
+  font-size: 0.8rem;
+  color: rgba(250,243,232,0.5);
+}
+
+@media (max-width: 768px) {
+  .impact__stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .impact__testimonials {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .impact__stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   MARKETPLACE
+   ============================================ */
+.marketplace {
+  padding: var(--section-pad) 0;
+  background: var(--white-warm);
+  position: relative;
+  overflow: hidden;
+}
+
+.marketplace__inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.marketplace__text .section-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.marketplace__text h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw + 0.5rem, 3rem);
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin-bottom: 1.25rem;
+}
+
+.marketplace__text h2 em {
+  font-style: italic;
+  color: var(--terracotta);
+}
+
+.marketplace__text p {
+  color: #555;
+  margin-bottom: 1.25rem;
+}
+
+.marketplace__highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--cream);
+  border-radius: 14px;
+  margin: 2rem 0;
+  border-left: 4px solid var(--green-forest);
+}
+
+.marketplace__highlight-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.marketplace__highlight-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--green-forest);
+  font-weight: 500;
+}
+
+.marketplace__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.product-card {
+  background: var(--cream);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px var(--shadow-warm);
+}
+
+.product-card__image {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--cream-dark), var(--terracotta-soft));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(44,44,44,0.1));
+}
+
+.product-card__info {
+  padding: 1rem;
+}
+
+.product-card__name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--charcoal);
+  margin-bottom: 0.2rem;
+}
+
+.product-card__cause {
+  font-size: 0.78rem;
+  color: var(--green-forest);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .marketplace__inner {
+    grid-template-columns: 1fr;
+  }
+  .marketplace__cards {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+/* ============================================
+   DIVIDER QUOTE
+   ============================================ */
+.divider-quote {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  background: var(--cream);
+  text-align: center;
+  position: relative;
+}
+
+.divider-quote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--brown-light), transparent);
+  opacity: 0.2;
+}
+
+.divider-quote blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.2rem);
+  line-height: 1.4;
+  color: var(--charcoal);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.divider-quote blockquote em {
+  font-style: italic;
+  color: var(--terracotta);
+}
+
+.divider-quote cite {
+  display: block;
+  margin-top: 1.25rem;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* ============================================
+   SURVEY / TU OPINIÓN
+   ============================================ */
+.survey {
+  padding: var(--section-pad) 0;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--cream-dark) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.survey::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--terracotta-soft), transparent);
+  opacity: 0.3;
+}
+
+.survey__wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.survey__header .section-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.survey__header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw + 0.5rem, 2.8rem);
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin-bottom: 0.75rem;
+}
+
+.survey__header p {
+  color: #666;
+  font-size: 1.05rem;
+  margin-bottom: 3rem;
+}
+
+.survey__card {
+  background: var(--white-warm);
+  border-radius: 20px;
+  padding: 0;
+  box-shadow: 0 8px 40px var(--shadow-warm), 0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.survey__typeform-wrap {
+  width: 100%;
+  min-height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .survey__typeform-wrap {
+    min-height: 450px;
+  }
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  padding: clamp(3rem, 6vw, 5rem) 0 2rem;
+  background: var(--charcoal);
+  color: rgba(250,243,232,0.7);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer__brand .nav__logo {
+  color: var(--cream);
+  font-size: 1.5rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.footer__brand p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 320px;
+}
+
+.footer h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--cream);
+  margin-bottom: 1.25rem;
+}
+
+.footer__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer__links a {
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer__links a:hover {
+  color: var(--terracotta-soft);
+}
+
+.footer__social {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.footer__social a {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(250,243,232,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.footer__social a:hover {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--cream);
+}
+
+.footer__contact-item {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(250,243,232,0.1);
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: rgba(250,243,232,0.4);
+}
+
+@media (max-width: 768px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+  .footer__bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+/* ============================================
+   COUNTER ANIMATION
+   ============================================ */
+.stat__number[data-target] {
+  font-variant-numeric: tabular-nums;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="nav" id="navbar">
+  <div class="nav__inner">
+    <a href="#hero" class="nav__logo">Raíces<span> Solidarias</span></a>
+    <ul class="nav__links">
+      <li><a href="#sobre">Nosotros</a></li>
+      <li><a href="#metodologia">Proceso</a></li>
+      <li><a href="#impacto">Impacto</a></li>
+      <li><a href="#tienda">Tienda</a></li>
+      <li><a href="#opinion">Opinión</a></li>
+    </ul>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="nav__mobile" id="mobileMenu">
+  <a href="#sobre" class="mobile-link">Nosotros</a>
+  <a href="#metodologia" class="mobile-link">Proceso</a>
+  <a href="#impacto" class="mobile-link">Impacto</a>
+  <a href="#tienda" class="mobile-link">Tienda</a>
+  <a href="#opinion" class="mobile-link">Opinión</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__blob hero__blob--1"></div>
+  <div class="hero__blob hero__blob--2"></div>
+  <div class="container hero__content">
+    <span class="hero__tag">Organización sin ánimo de lucro · Colombia</span>
+    <h1 class="hero__title">
+      Donde la <em>esperanza</em><br>
+      echa raíces
+    </h1>
+    <p class="hero__subtitle">
+      Acompañamos comunidades en situación de vulnerabilidad, transformando
+      realidades a través del trabajo colectivo, la solidaridad y la acción
+      directa en los territorios que más lo necesitan.
+    </p>
+    <div class="hero__actions">
+      <a href="#impacto" class="btn btn--primary">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="9" r="7"/><path d="M9 6v6M6 9h6"/></svg>
+        Conoce nuestro impacto
+      </a>
+      <a href="#sobre" class="btn btn--ghost">
+        Descubre quiénes somos
+      </a>
+    </div>
+  </div>
+  <div class="hero__scroll">
+    <span>Descubre</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============ DIVIDER QUOTE ============ -->
+<section class="divider-quote">
+  <div class="container--narrow reveal">
+    <blockquote>
+      "Nadie se salva solo. Cada mano que se extiende <em>siembra un futuro</em> donde antes solo había incertidumbre."
+    </blockquote>
+    <cite>— Filosofía de Raíces Solidarias</cite>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="sobre">
+  <div class="container">
+    <div class="about__grid">
+      <div class="about__visual reveal">
+        <div class="about__image-frame">
+          <div class="about__image-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Comunidad en acción · Colombia
+          </div>
+        </div>
+        <div class="about__accent-shape"></div>
+      </div>
+      <div class="about__text">
+        <span class="section-tag reveal">Quiénes somos</span>
+        <h2 class="reveal reveal-delay-1">
+          Nacimos de la convicción de que el <em>cambio es posible</em>
+        </h2>
+        <p class="reveal reveal-delay-2">
+          Raíces Solidarias es una organización colombiana sin ánimo de lucro que trabaja
+          directamente con comunidades afectadas por la desigualdad, el desplazamiento y la
+          falta de oportunidades. Desde 2018, hemos llegado a regiones donde la presencia
+          institucional es escasa y la necesidad es urgente.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Nuestra visión es un país donde cada comunidad tenga las herramientas, el
+          acompañamiento y la dignidad que merece para construir su propio futuro.
+        </p>
+        <div class="about__values reveal reveal-delay-3">
+          <div class="value-card">
+            <div class="value-card__icon">🤝</div>
+            <div class="value-card__title">Solidaridad</div>
+            <div class="value-card__desc">Trabajamos junto a las comunidades, nunca por encima de ellas.</div>
+          </div>
+          <div class="value-card">
+            <div class="value-card__icon">🌱</div>
+            <div class="value-card__title">Sostenibilidad</div>
+            <div class="value-card__desc">Generamos capacidades locales que permanecen en el tiempo.</div>
+          </div>
+          <div class="value-card">
+            <div class="value-card__icon">🔍</div>
+            <div class="value-card__title">Transparencia</div>
+            <div class="value-card__desc">Cada recurso invertido es trazable y rendido públicamente.</div>
+          </div>
+          <div class="value-card">
+            <div class="value-card__icon">💬</div>
+            <div class="value-card__title">Escucha activa</div>
+            <div class="value-card__desc">Las comunidades definen sus prioridades; nosotros facilitamos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METHODOLOGY ============ -->
+<section class="methodology" id="metodologia">
+  <div class="container">
+    <div class="methodology__header">
+      <span class="section-tag reveal">Cómo lo hacemos</span>
+      <h2 class="reveal reveal-delay-1">Un proceso que nace de la <em>escucha</em></h2>
+      <p class="reveal reveal-delay-2">
+        No llegamos con soluciones prediseñadas. Co-creamos cada intervención con
+        la comunidad, respetando sus saberes y fortaleciendo sus capacidades.
+      </p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step__number">1</div>
+        <h3 class="step__title">Diagnóstico territorial</h3>
+        <p class="step__desc">
+          Visitamos la comunidad, escuchamos sus voces y mapeamos las necesidades
+          reales junto a líderes locales.
+        </p>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step__number">2</div>
+        <h3 class="step__title">Co-diseño comunitario</h3>
+        <p class="step__desc">
+          Facilitamos talleres participativos donde la comunidad define prioridades
+          y diseña las soluciones con nosotros.
+        </p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step__number">3</div>
+        <h3 class="step__title">Implementación conjunta</h3>
+        <p class="step__desc">
+          Ejecutamos los proyectos con mano de obra local, transferencia de
+          conocimiento y recursos transparentes.
+        </p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step__number">4</div>
+        <h3 class="step__title">Medición y continuidad</h3>
+        <p class="step__desc">
+          Evaluamos el impacto con indicadores claros y dejamos capacidades
+          instaladas para que el cambio perdure.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT ============ -->
+<section class="impact" id="impacto">
+  <div class="container">
+    <div class="impact__header">
+      <span class="section-tag reveal">Nuestro impacto</span>
+      <h2 class="reveal reveal-delay-1">Cifras que cuentan historias</h2>
+      <p class="reveal reveal-delay-2">
+        Detrás de cada número hay una familia, una comunidad, una vida que cambia.
+        Estos son los resultados de creer que otro camino es posible.
+      </p>
+    </div>
+    <div class="impact__stats">
+      <div class="stat reveal">
+        <div class="stat__number" data-target="12400" data-suffix="+">0</div>
+        <div class="stat__label">Personas beneficiadas directamente</div>
+      </div>
+      <div class="stat reveal reveal-delay-1">
+        <div class="stat__number" data-target="37">0</div>
+        <div class="stat__label">Comunidades acompañadas en 8 departamentos</div>
+      </div>
+      <div class="stat reveal reveal-delay-2">
+        <div class="stat__number" data-target="96" data-suffix="%">0</div>
+        <div class="stat__label">De los recursos llegan directo a los territorios</div>
+      </div>
+      <div class="stat reveal reveal-delay-3">
+        <div class="stat__number" data-target="6">0</div>
+        <div class="stat__label">Años construyendo confianza y resultados</div>
+      </div>
+    </div>
+    <div class="impact__testimonials">
+      <div class="testimonial reveal">
+        <div class="testimonial__quote-mark">"</div>
+        <p class="testimonial__text">
+          Antes sentíamos que nadie nos escuchaba. Raíces llegó sin promesas vacías,
+          se sentó con nosotros y juntos construimos el acueducto que hoy abastece
+          a 140 familias de nuestra vereda.
+        </p>
+        <div class="testimonial__author">
+          <div class="testimonial__avatar">ML</div>
+          <div>
+            <div class="testimonial__name">María Lucía Córdoba</div>
+            <div class="testimonial__role">Líder comunitaria · Chocó</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal reveal-delay-1">
+        <div class="testimonial__quote-mark">"</div>
+        <p class="testimonial__text">
+          El taller de emprendimiento me dio herramientas que no sabía que
+          necesitaba. Hoy tengo mi propio negocio de confección y empleo a tres
+          mujeres más de mi barrio. El cambio se siente en todo.
+        </p>
+        <div class="testimonial__author">
+          <div class="testimonial__avatar">YR</div>
+          <div>
+            <div class="testimonial__name">Yesenia Rojas</div>
+            <div class="testimonial__role">Emprendedora · Tumaco, Nariño</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARKETPLACE ============ -->
+<section class="marketplace" id="tienda">
+  <div class="container">
+    <div class="marketplace__inner">
+      <div class="marketplace__text">
+        <span class="section-tag reveal">Tienda solidaria</span>
+        <h2 class="reveal reveal-delay-1">
+          Cada compra es un acto de <em>solidaridad</em>
+        </h2>
+        <p class="reveal reveal-delay-2">
+          Nuestro marketplace de merchandising solidario ofrece productos diseñados
+          con propósito: camisetas, tote bags, accesorios y más, creados por artistas
+          colombianos comprometidos con el cambio social.
+        </p>
+        <div class="marketplace__highlight reveal reveal-delay-2">
+          <div class="marketplace__highlight-icon">💚</div>
+          <div class="marketplace__highlight-text">
+            El 100% de las ganancias se destina íntegramente a causas específicas:
+            agua potable, educación rural, emprendimiento femenino y soberanía
+            alimentaria en comunidades vulnerables.
+          </div>
+        </div>
+        <p class="reveal reveal-delay-3">
+          Cada producto tiene una etiqueta de trazabilidad que indica a qué causa
+          y comunidad irán destinados los recursos. Comprar aquí es saber exactamente
+          a quién estás ayudando.
+        </p>
+        <div class="reveal reveal-delay-4" style="margin-top:2rem;">
+          <a href="https://marketplace.raicessolidarias.org" target="_blank" rel="noopener" class="btn btn--primary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Visitar la tienda solidaria
+          </a>
+          <a href="#impacto" class="btn btn--dark" style="margin-left:0.5rem;">
+            Ver a dónde van los recursos
+          </a>
+        </div>
+      </div>
+      <div class="marketplace__cards reveal">
+        <div class="product-card">
+          <div class="product-card__image">👕</div>
+          <div class="product-card__info">
+            <div class="product-card__name">Camiseta "Raíces"</div>
+            <div class="product-card__cause">→ Agua potable · Chocó</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-card__image">🎒</div>
+          <div class="product-card__info">
+            <div class="product-card__name">Tote Bag Solidario</div>
+            <div class="product-card__cause">→ Educación rural · Nariño</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-card__image">☕</div>
+          <div class="product-card__info">
+            <div class="product-card__name">Mug "Siembra Esperanza"</div>
+            <div class="product-card__cause">→ Emprendimiento · Bolívar</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-card__image">🧢</div>
+          <div class="product-card__info">
+            <div class="product-card__name">Gorra Territorial</div>
+            <div class="product-card__cause">→ Soberanía alimentaria · Cauca</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SURVEY ============ -->
+<section class="survey" id="opinion">
+  <div class="container">
+    <div class="survey__wrapper">
+      <div class="survey__header">
+        <span class="section-tag reveal">Tu opinión importa</span>
+        <h2 class="reveal reveal-delay-1">Ayúdanos a mejorar</h2>
+        <p class="reveal reveal-delay-2">
+          Acabas de conocer nuestra historia. Cuéntanos qué piensas — tu
+          retroalimentación nos ayuda a conectar mejor con quienes quieren
+          sumarse al cambio.
+        </p>
+      </div>
+      <div class="survey__card reveal reveal-delay-3" id="surveyCard">
+        <div class="survey__typeform-wrap">
+          <iframe
+            src="https://form.typeform.com/to/vqbhiyWc?typeform-medium=embed-snippet"
+            style="width:100%;height:500px;border:none;border-radius:20px;"
+            allow="camera; microphone; autoplay; encrypted-media;"
+            loading="lazy"
+            title="Encuesta Raíces Solidarias"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="contacto">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="#hero" class="nav__logo">Raíces<span> Solidarias</span></a>
+        <p>
+          Organización sin ánimo de lucro que trabaja junto a comunidades
+          colombianas en situación de vulnerabilidad. Cada acción cuenta,
+          cada raíz sostiene.
+        </p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="14" height="14" rx="4"/><circle cx="9" cy="9" r="3.5"/><circle cx="13.5" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer__links">
+          <li><a href="#sobre">Quiénes somos</a></li>
+          <li><a href="#metodologia">Nuestro proceso</a></li>
+          <li><a href="#impacto">Impacto social</a></li>
+          <li><a href="#tienda">Tienda solidaria</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul class="footer__links">
+          <li><a href="#">Política de privacidad</a></li>
+          <li><a href="#">Términos de uso</a></li>
+          <li><a href="#">Informe de gestión</a></li>
+          <li><a href="#">Certificado ESAL</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <div class="footer__contact-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          contacto@raicessolidarias.org
+        </div>
+        <div class="footer__contact-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +57 (601) 555 2843
+        </div>
+        <div class="footer__contact-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Bogotá, Colombia
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2024 Raíces Solidarias · Entidad Sin Ánimo de Lucro · NIT 901.XXX.XXX-X</span>
+      <span>Hecho con ❤️ desde Colombia</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================
+   NAVIGATION SCROLL EFFECT
+   ============================================ */
+const nav = document.getElementById('navbar');
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ============================================
+   INTERSECTION OBSERVER — REVEAL ANIMATIONS
+   ============================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  threshold: 0.15,
+  rootMargin: '0px 0px -40px 0px'
+});
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================================
+   ANIMATED COUNTERS
+   ============================================ */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const duration = 2000;
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(target * ease);
+    el.textContent = current.toLocaleString('es-CO') + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat__number[data-target]').forEach(el => {
+  counterObserver.observe(el);
+});
+
+/* ============================================
+   SMOOTH SCROLL POLYFILL FOR ANCHORS
+   ============================================ */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
