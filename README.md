@@ -29,11 +29,18 @@ Secciones comentadas en el HTML: impacto (stats), encuesta Typeform (se pueden r
 
 ## Vista previa al compartir el enlace (GitHub Pages, WhatsApp, redes)
 
-**GitHub Pages no “elige” una imagen automática** para la miniatura: hace falta **meta etiquetas Open Graph** (`og:image`, etc.) en el `<head>` con **URL absoluta** (https://…/img/remo.png).
+**GitHub Pages no “elige” una imagen automática** para la miniatura: hace falta **meta etiquetas Open Graph** (`og:image`, etc.) en el `<head>` con **URL absoluta**.
 
-En `index.html` ya están configuradas apuntando a `img/remo.png` y a la URL de GitHub Pages del repo [**Remo**](https://github.com/ricardoarcos98/Remo): `https://ricardoarcos98.github.io/Remo/`. Si cambias el **nombre del repo**, el **usuario** o usas **dominio propio**, actualiza en el HTML las URLs de `og:url`, `og:image`, `twitter:image` y `link rel="canonical"`.
+En `index.html` la miniatura usa **`img/remo-og.jpg`** (JPEG optimizado ~200KB). **No uses `remo.png` (~9MB) como `og:image`**: WhatsApp y Facebook suelen **no mostrar** la vista previa con archivos muy pesados o timeouts al rastrear.
 
-Recomendación para `og:image`: **1200×630 px** aprox. (PNG/JPG); si la miniatura no se actualiza en WhatsApp, prueba el depurador de Facebook (Sharing Debugger) para forzar recacheo.
+URLs base del repo [**Remo**](https://github.com/ricardoarcos98/Remo): `https://ricardoarcos98.github.io/Remo/`. Si cambias repo, usuario o dominio, actualiza `og:url`, `og:image`, `twitter:image` y `canonical`.
+
+### Si WhatsApp no muestra la imagen
+
+1. Sube los cambios y confirma que abre: `https://ricardoarcos98.github.io/Remo/img/remo-og.jpg` en el navegador (debe verse la imagen).
+2. **Refrescar caché del rastreador** (WhatsApp usa el de Facebook): [Sharing Debugger](https://developers.facebook.com/tools/debug/) → pega `https://ricardoarcos98.github.io/Remo/` → **Depurar de nuevo**.
+3. Espera unos minutos y prueba compartir de nuevo; WhatsApp cachea enlaces **mucho tiempo** la primera vez.
+4. Prueba el enlace desde otro chat o con un parámetro nuevo: `https://ricardoarcos98.github.io/Remo/?v=2` (solo para forzar re-fetch en algunos casos).
 
 ## Edición rápida de la campaña activa
 
